@@ -45,6 +45,10 @@ import org.springframework.util.ReflectionUtils;
  * @author Phillip Webb
  * @author Stephane Nicoll
  * @since 1.4.0
+ *
+ * otz:
+ * 	spring-boot 启动异常处理机制
+ *
  */
 public final class FailureAnalyzers {
 

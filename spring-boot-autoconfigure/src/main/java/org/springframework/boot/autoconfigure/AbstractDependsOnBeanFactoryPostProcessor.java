@@ -71,10 +71,8 @@ public abstract class AbstractDependsOnBeanFactoryPostProcessor implements BeanF
 
 	private Iterable<String> getBeanNames(ListableBeanFactory beanFactory) {
 		Set<String> names = new HashSet<String>();
-		names.addAll(Arrays
-				.asList(BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory, this.beanClass, true, false)));
-		for (String factoryBeanName : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory,
-				this.factoryBeanClass, true, false)) {
+		names.addAll(Arrays.asList(BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory, this.beanClass, true, false)));
+		for (String factoryBeanName : BeanFactoryUtils.beanNamesForTypeIncludingAncestors(beanFactory, this.factoryBeanClass, true, false)) {
 			names.add(BeanFactoryUtils.transformedBeanName(factoryBeanName));
 		}
 		return names;

@@ -22,6 +22,10 @@ package org.springframework.boot.diagnostics;
  *
  * @author Andy Wilkinson
  * @since 1.4.0
+ *
+ * otz:
+ * 	用于分析故障并提供可以向用户显示的诊断信息
+ *
  */
 public interface FailureAnalyzer {
 
