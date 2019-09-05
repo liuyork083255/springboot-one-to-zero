@@ -39,6 +39,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.boot.Banner.Mode;
+import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.diagnostics.FailureAnalyzers;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
@@ -754,6 +755,9 @@ public class SpringApplication {
 	 */
 	protected void refresh(ApplicationContext applicationContext) {
 		Assert.isInstanceOf(AbstractApplicationContext.class, applicationContext);
+		/**
+		 * 进入 {@link EmbeddedWebApplicationContext#refresh()}
+		 */
 		((AbstractApplicationContext) applicationContext).refresh();
 	}
 

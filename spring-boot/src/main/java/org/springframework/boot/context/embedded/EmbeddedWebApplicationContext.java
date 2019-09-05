@@ -42,6 +42,7 @@ import org.springframework.boot.web.servlet.ServletContextInitializerBeans;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ContextLoader;
@@ -100,6 +101,7 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 	 */
 	public static final String DISPATCHER_SERVLET_NAME = "dispatcherServlet";
 
+	/** servlet 容器 */
 	private volatile EmbeddedServletContainer embeddedServletContainer;
 
 	private ServletConfig servletConfig;
@@ -120,6 +122,9 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 	@Override
 	public final void refresh() throws BeansException, IllegalStateException {
 		try {
+			/**
+			 * 调用父类 {@link AbstractApplicationContext#refresh()}
+			 */
 			super.refresh();
 		}
 		catch (RuntimeException ex) {
@@ -128,6 +133,10 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 		}
 	}
 
+	/**
+	 * 创建 tomcat 内嵌容器核心方法
+	 * 这个方法会被 {@link AbstractApplicationContext#refresh()} 中的 onRefresh 方法调用
+	 */
 	@Override
 	protected void onRefresh() {
 		super.onRefresh();
@@ -155,10 +164,15 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 	}
 
 	private void createEmbeddedServletContainer() {
+		/* 第一次获取内嵌容器是 null */
 		EmbeddedServletContainer localContainer = this.embeddedServletContainer;
+
+		/* 第一次获取 servlet 容器是 null */
 		ServletContext localServletContext = getServletContext();
 		if (localContainer == null && localServletContext == null) {
+			/* 在 bean factory 中获取 servlet 容器工厂 */
 			EmbeddedServletContainerFactory containerFactory = getEmbeddedServletContainerFactory();
+			/* 获取容器，并且启动容器 */
 			this.embeddedServletContainer = containerFactory.getEmbeddedServletContainer(getSelfInitializer());
 		}
 		else if (localServletContext != null) {
@@ -197,6 +211,8 @@ public class EmbeddedWebApplicationContext extends GenericWebApplicationContext 
 	 * setup of this {@link WebApplicationContext}.
 	 * @return the self initializer
 	 * @see #prepareEmbeddedWebApplicationContext(ServletContext)
+	 *
+	 * 获取容器实例，用于启动 web 容器
 	 */
 	private org.springframework.boot.web.servlet.ServletContextInitializer getSelfInitializer() {
 		return new ServletContextInitializer() {

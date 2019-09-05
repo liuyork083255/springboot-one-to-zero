@@ -88,7 +88,9 @@ public class TomcatEmbeddedServletContainer implements EmbeddedServletContainer 
 	}
 
 	private void initialize() throws EmbeddedServletContainerException {
+		/* 这就是 spring-boot-web 启动 tomcat 前打印的熟悉的日志 */
 		TomcatEmbeddedServletContainer.logger.info("Tomcat initialized with port(s): " + getPortsDescription(false));
+
 		synchronized (this.monitor) {
 			try {
 				addInstanceIdToEngineName();
@@ -109,6 +111,7 @@ public class TomcatEmbeddedServletContainer implements EmbeddedServletContainer 
 					});
 
 					// Start the server to trigger initialization listeners
+					/* 真正启动 tomcat 方法 */
 					this.tomcat.start();
 
 					// We can re-throw failure exception directly in the main thread

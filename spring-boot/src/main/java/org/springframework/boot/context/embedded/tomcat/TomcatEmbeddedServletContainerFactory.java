@@ -174,6 +174,7 @@ public class TomcatEmbeddedServletContainerFactory extends AbstractEmbeddedServl
 			tomcat.getService().addConnector(additionalConnector);
 		}
 		prepareContext(tomcat.getHost(), initializers);
+		/* 获取并启动 */
 		return getTomcatEmbeddedServletContainer(tomcat);
 	}
 
